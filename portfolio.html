@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品集 - 邸玉龙的个人网站</title>
+    <!-- 引入Google Fonts - Inter字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 引入Font Awesome图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入自定义CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav id="navbar" class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">邸玉龙的个人网站</a>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="about.html">关于我</a>
+                <a href="portfolio.html" class="active">作品集</a>
+                <a href="contact.html">联系我</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 照片轮播区域 -->
+    <section id="portfolio" class="portfolio" style="padding-top: 120px;">
+        <div class="container">
+            <div class="slider" id="slider">
+                <div class="slides">
+                    <div class="slide active" data-img="https://via.placeholder.com/1600x900?text=Photo+1">
+                        <div class="slide-content">
+                            <p class="slide-caption">照片描述 1</p>
+                        </div>
+                    </div>
+                    <div class="slide" data-img="https://via.placeholder.com/1600x900?text=Photo+2">
+                        <div class="slide-content">
+                            <p class="slide-caption">照片描述 2</p>
+                        </div>
+                    </div>
+                    <div class="slide" data-img="https://via.placeholder.com/1600x900?text=Photo+3">
+                        <div class="slide-content">
+                            <p class="slide-caption">照片描述 3</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-btn prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider-btn next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                <div class="slider-dots" id="sliderDots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部区域 -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="social-links"></div>
+            <p class="copyright">&copy; 2025 邸玉龙. 保留所有权利</p>
+        </div>
+    </footer>
+
+    <!-- 引入自定义JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
