@@ -134,12 +134,11 @@
     // DOM元素加载完成后执行
     document.addEventListener('DOMContentLoaded', function() {
       // 为所有联系方式项添加点击事件查看完整信息
-      const contactElements = document.querySelectorAll('.email-address, .phone-number, .wechat-id, .qq-number, .github-id, .github-link');
+      const contactElements = document.querySelectorAll('.email-address, .phone-number, .wechat-id, .qq-number');
       contactElements.forEach(element => {
         if (element.className.includes('email-address') || 
             element.className.includes('phone-number') || 
-            element.className.includes('qq-number') || 
-            element.className.includes('github-id')) {
+            element.className.includes('qq-number')) {
           // 添加点击查看完整信息的功能
           element.style.cursor = 'pointer';
           element.title = '点击查看完整信息';
@@ -213,7 +212,7 @@
               }
             }, 20000);
           });
-
+        }
       });
 
       // 微信二维码弹窗功能
