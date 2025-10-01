@@ -104,19 +104,6 @@
             <p class="text-sm text-gray-500 mt-1">点击查看完整信息</p>
           </div>
         </div>
-        
-        <!-- GitHub -->
-        <div class="contact-item bg-white rounded-xl shadow-lg p-8 flex items-center gap-6">
-          <div class="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center text-white text-2xl">
-            <i class="fab fa-github"></i>
-          </div>
-          <div>
-            <h3 class="text-xl font-semibold mb-2">GitHub</h3>
-            <p class="github-id" data-github="ZGl5dWxvbmdxcXFxcXE=">di*****longqqqqq</p>
-            <p class="text-sm text-gray-500 mt-1">点击查看完整信息</p>
-            <a href="" class="github-link text-primary hover:underline text-sm mt-1 inline-block" data-github-link="aHR0cHM6Ly9naXRodWIuY29tL2RpeXVsb25ncXFxcXFx">访问我的GitHub</a>
-          </div>
-        </div>
       </div>
     </div>
   </main>
@@ -136,9 +123,7 @@
       secondaryEmail: "di12yu34long56@outlook.com",
       phone: "14704666356",
       wechat: "di12yu34long56",
-      qq: "1735039092",
-      github: "diyulongqqqqq",
-      githubLink: "https://github.com/diyulongqqqqq"
+      qq: "1735039092"
     };
 
     // 简单的Base64解码函数
@@ -175,8 +160,6 @@
               fullContact = originalValues.phone;
             } else if (this.classList.contains('qq-number')) {
               fullContact = originalValues.qq;
-            } else if (this.classList.contains('github-id')) {
-              fullContact = originalValues.github;
             }
             
             // 显示完整联系方式
@@ -230,11 +213,7 @@
               }
             }, 20000);
           });
-        } else if (element.className.includes('github-link')) {
-          // 设置GitHub链接
-          element.href = originalValues.githubLink;
-          element.target = '_blank';
-        }
+
       });
 
       // 微信二维码弹窗功能

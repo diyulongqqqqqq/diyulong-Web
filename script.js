@@ -162,14 +162,14 @@ function showFullContactInfoInModal(useModalContent = false) {
         contentHtml += `
           <div class="p-4 bg-gray-50 rounded-lg">
             <h4 class="font-medium text-gray-700 mb-2">完整邮箱地址</h4>
-            <p class="text-lg font-semibold">${encodeEmail(fullEmail)}</p>
+            <p class="text-lg font-semibold text-black">${encodeEmail(fullEmail)}</p>
           </div>`;
       }
       if (fullPhone) {
         contentHtml += `
           <div class="p-4 bg-gray-50 rounded-lg">
             <h4 class="font-medium text-gray-700 mb-2">完整电话号码</h4>
-            <p class="text-lg font-semibold">${fullPhone}</p>
+            <p class="text-lg font-semibold text-black">${fullPhone}</p>
           </div>`;
       }
       
@@ -211,7 +211,7 @@ function showFullContactInfoInModal(useModalContent = false) {
           modalEmailDisplay.innerHTML = encodedEmail;
           // 创建可点击的邮箱链接
           modalEmailDisplay.style.cursor = 'pointer';
-          modalEmailDisplay.style.color = '#3b82f6';
+          modalEmailDisplay.style.color = 'black';
           modalEmailDisplay.onclick = function() {
             window.location.href = 'mailto:' + email;
           };
@@ -233,6 +233,7 @@ function showFullContactInfoInModal(useModalContent = false) {
         if (phone) {
           // 直接显示完整电话号码
           modalPhoneDisplay.textContent = phone;
+          modalPhoneDisplay.style.color = 'black';
         }
       } catch (e) {
         console.error('显示电话失败:', e);
