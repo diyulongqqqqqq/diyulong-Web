@@ -143,20 +143,12 @@
               </button>
             `;
             
-            // 创建模态框主体
+            // 模态框body
             const modalBody = document.createElement('div');
             modalBody.className = 'px-6 py-4';
             modalBody.innerHTML = `
-              <div id="modal-contact-content" class="mb-6">
+              <div id="modal-contact-content">
                 <!-- 联系方式内容将由JavaScript动态填充 -->
-              </div>
-              <div class="flex justify-center">
-                <button id="show-contact-btn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">
-                  显示联系方式
-                </button>
-                <button id="hide-contact-btn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors hidden">
-                  隐藏联系方式
-                </button>
               </div>
             `;
             
@@ -176,15 +168,6 @@
               if (e.target === modal) {
                 modal.classList.add('hidden');
               }
-            });
-            
-            // 添加显示/隐藏按钮事件
-            document.getElementById('show-contact-btn').addEventListener('click', function() {
-              showFullContactInfoInModal();
-            });
-            
-            document.getElementById('hide-contact-btn').addEventListener('click', function() {
-              hideFullContactInfoInModal();
             });
           }
           
@@ -206,7 +189,7 @@
                   </div>
                   <div>
                     <h4 class="text-gray-600 mb-1">邮箱</h4>
-                    <p class="text-lg font-medium text-dark email" id="modal-email-display" data-email="MTczNTAzOTA5MkBxcS5jb20=">173*****92@qq.com</p>
+                    <p class="text-lg font-medium email" id="modal-email-display" data-email="MTczNTAzOTA5MkBxcS5jb20=">173*****92@qq.com</p>
                   </div>
                 </div>
               `;
@@ -218,7 +201,7 @@
                   </div>
                   <div>
                     <h4 class="text-gray-600 mb-1">电话</h4>
-                    <p class="text-lg font-medium text-dark phone" id="modal-phone-display" data-phone="MTQ3MDQ2NjYzNTY=">147****6356</p>
+                    <p class="text-lg font-medium phone" id="modal-phone-display" data-phone="MTQ3MDQ2NjYzNTY=">147****6356</p>
                   </div>
                 </div>
               `;
@@ -229,9 +212,8 @@
             // 显示模态框
             document.getElementById('contact-modal').classList.remove('hidden');
             
-            // 重置按钮状态
-            document.getElementById('show-contact-btn').classList.remove('hidden');
-            document.getElementById('hide-contact-btn').classList.add('hidden');
+            // 直接显示完整联系方式
+            showFullContactInfoInModal();
           }
           
           // 在模态框中显示完整联系方式
