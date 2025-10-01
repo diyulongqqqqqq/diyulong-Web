@@ -1,0 +1,117 @@
+:root {
+  --primary: #165DFF;
+  --secondary: #722ED1;
+  --dark: #1D2939;
+  --light: #F9FAFB;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/1015-1920x1080.jpg') center/cover no-repeat;
+  height: 100vh;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.social-icon {
+  transition: transform 0.3s ease, color 0.3s ease;
+  position: relative;
+}
+
+/* 微信图标特殊样式 */
+.social-icon-wechat {
+  transform: translateX(15px);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+/* 为社交媒体图标中的i标签添加动画效果 */
+.social-icon i,
+.social-icon-wechat i {
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover i,
+.social-icon-wechat:hover i {
+  transform: scale(1.2) rotate(5deg);
+}
+
+.social-icon:hover {
+  transform: scale(1.2);
+  color: var(--primary);
+}
+
+.social-icon:hover::after {
+  content: attr(data-name);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 5px;
+  padding: 2px 6px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 12px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0E42D2;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5E1BB6;
+  transform: translateY(-2px);
+}
