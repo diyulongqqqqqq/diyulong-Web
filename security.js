@@ -24,7 +24,7 @@ window.securityUtils = {
     if (document.querySelector('meta[http-equiv="Content-Security-Policy"]') === null) {
       const cspMeta = document.createElement('meta');
       cspMeta.setAttribute('http-equiv', 'Content-Security-Policy');
-      cspMeta.setAttribute('content', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://fonts.googleapis.com https://formspree.io; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;");
+      cspMeta.setAttribute('content', "default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://fonts.googleapis.com https://formspree.io; style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;");
       document.head.appendChild(cspMeta);
     }
     
@@ -151,87 +151,42 @@ window.securityUtils = {
     });
   },
   
-  // 保护电话号码 - 使用SVG图片显示
+  // 保护电话号码 - 已移至ContactHandler类统一处理
   protectPhoneNumbers: function() {
-    const phoneElements = document.querySelectorAll('#phone-display, #modal-phone-display, [data-phone], .phone');
-    
-    phoneElements.forEach(el => {
-      // 检查是否有data-phone属性（Base64编码）
-      const encodedPhone = el.getAttribute('data-phone');
-      if (encodedPhone) {
-        // 使用Base64解码
-        try {
-          const decodedPhone = this.decodeContact(encodedPhone);
-          // 替换为SVG图片
-          if (el.tagName.toLowerCase() === 'p' || el.tagName.toLowerCase() === 'span') {
-            // 创建SVG图片容器
-            const svgContainer = document.createElement('span');
-            svgContainer.innerHTML = `<img src="phone-number.svg" alt="电话号码" class="phone-svg" />`;
-            
-            // 保存原始文本和解码后的文本作为数据属性
-            svgContainer.setAttribute('data-original-text', el.textContent);
-            svgContainer.setAttribute('data-decoded-text', decodedPhone);
-            
-            // 替换原始元素内容
-            el.innerHTML = '';
-            el.appendChild(svgContainer);
-          }
-        } catch (e) {
-          console.error('解码电话失败:', e);
-        }
-      } else {
-        // 替换为SVG图片
-        if (el.tagName.toLowerCase() === 'p' || el.tagName.toLowerCase() === 'span') {
-          // 创建SVG图片容器
-          const svgContainer = document.createElement('span');
-          svgContainer.innerHTML = `<img src="phone-number.svg" alt="电话号码" class="phone-svg" />`;
-          
-          // 保存原始文本作为数据属性
-          svgContainer.setAttribute('data-original-text', el.textContent);
-          
-          // 替换原始元素内容
-          el.innerHTML = '';
-          el.appendChild(svgContainer);
-        }
-      }
-    });
+    // 电话号码保护逻辑已统一使用ContactHandler类的方法
+    // 此处留空以保持接口一致性
   },
   
-  // HTML实体编码邮箱地址
+  // HTML实体编码邮箱地址（已统一使用ContactHandler类的方法）
   encodeEmail: function(email) {
+    if (window.ContactHandler && typeof ContactHandler.encodeEmail === 'function') {
+      return ContactHandler.encodeEmail(email);
+    }
+    // 降级处理
     let encoded = '';
     for (let i = 0; i < email.length; i++) {
-      // 对@和.进行特殊编码，其他字符也进行编码以增强安全性
       const char = email[i];
-      if (char === '@') {
-        encoded += '&#64;';
-      } else if (char === '.') {
-        encoded += '&#46;';
-      } else {
-        encoded += '&#' + char.charCodeAt(0) + ';';
-      }
+      encoded += '&#' + char.charCodeAt(0) + ';';
     }
     return encoded;
   },
   
-  // 解码Base64编码的联系方式
+  // 解码Base64编码的联系方式（已统一使用ContactHandler类的方法）
   decodeContact: function(encodedString) {
+    if (window.ContactHandler && typeof ContactHandler.decodeContact === 'function') {
+      try {
+        return ContactHandler.decodeContact(encodedString);
+      } catch (e) {
+        console.error('使用ContactHandler解码失败:', e);
+      }
+    }
+    // 降级处理
     try {
-      // 处理可能的URL安全Base64编码
       encodedString = encodedString.replace(/-/g, '+').replace(/_/g, '/');
-      // 确保字符串长度是4的倍数
       while (encodedString.length % 4) {
         encodedString += '=';
       }
-      
-      // Base64解码
-      if (typeof atob === 'function') {
-        // 浏览器环境
-        return atob(encodedString);
-      } else {
-        // Node.js环境（如果需要）
-        return Buffer.from(encodedString, 'base64').toString('utf8');
-      }
+      return atob(encodedString);
     } catch (e) {
       console.error('Base64解码失败:', e);
       throw new Error('联系方式解码失败');
@@ -239,39 +194,33 @@ window.securityUtils = {
   },
   
   // 创建Formspree表单
-  createFormspreeForm: function(containerId, encodedEmail) {
+  createFormspreeForm: function(containerId, formId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
-    try {
-      // 解码Base64编码的邮箱
-      const email = this.decodeContact(encodedEmail);
-      const encodedHtml = this.encodeEmail(email);
-      
-      // 创建Formspree表单
-      container.innerHTML = `
-        <form action="https://formspree.io/f/${email.split('@')[0]}" method="POST" class="space-y-4">
-          <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">您的姓名</label>
-            <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" required>
-          </div>
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">您的邮箱</label>
-            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" required>
-          </div>
-          <div>
-            <label for="message" class="block text-sm font-medium text-gray-700 mb-1">您的留言</label>
-            <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" required></textarea>
-          </div>
-          <div class="text-center">
-            <button type="submit" class="btn-primary px-6 py-3 rounded-lg text-white font-semibold hover:bg-primary/90 transition-colors">发送消息</button>
-          </div>
-        </form>
-      `;
-    } catch (e) {
-      console.error('创建表单失败:', e);
-      container.innerHTML = '<p class="text-red-500 text-center">表单加载失败，请稍后再试</p>';
-    }
+    // 直接使用完整的Formspree ID，避免通过邮箱地址推断ID的安全风险
+    const formspreeId = formId || 'xvggbzwz'; // 默认ID，实际使用时应该通过参数传递
+    
+    // 创建Formspree表单
+    container.innerHTML = `
+      <form action="https://formspree.io/f/${formspreeId}" method="POST" class="space-y-4">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700 mb-1">您的姓名</label>
+          <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" required>
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">您的邮箱</label>
+          <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" required>
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-medium text-gray-700 mb-1">您的留言</label>
+          <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors" required></textarea>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn-primary px-6 py-3 rounded-lg text-white font-semibold hover:bg-primary/90 transition-colors">发送消息</button>
+        </div>
+      </form>
+    `;
   }
 };
 

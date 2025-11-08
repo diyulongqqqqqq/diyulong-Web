@@ -54,6 +54,17 @@ body {
   width: 100%;
 }
 
+/* 导航栏滚动效果 */
+#navbar.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+#navbar.scrolled .nav-link {
+  color: #1D2939;
+}
+
 .hero-section {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/1015-1920x1080.jpg') center/cover no-repeat;
   height: 100vh;
@@ -142,6 +153,11 @@ body {
   box-shadow: var(--shadow-lg);
 }
 
+/* 移动端菜单切换按钮动画 */
+#menu-toggle.active i {
+  transform: rotate(90deg);
+}
+
 .back-to-top.visible {
   opacity: 1;
   visibility: visible;
@@ -154,13 +170,121 @@ body {
 
 /* 移动端菜单动画效果 */
 .mobile-menu {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  transform: translateY(-20px);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transform: translateY(-20px) scale(0.95);
   opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
 }
 
 .mobile-menu:not(.hidden) {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+  max-height: 500px; /* 足够容纳菜单内容的高度 */
+}
+
+/* 优化移动端菜单动画，添加ease-out效果 */
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-menu {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* 小屏幕设备下的联系方式卡片优化 */
+@media (max-width: 768px) {
+  .contact-item {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .contact-item .w-16 {
+    margin: 0 auto 1rem;
+  }
+  
+  .contact-item .w-12 {
+    margin: 0 auto 1rem;
+  }
+  
+  /* 调整首页联系方式卡片在极小屏幕上的内边距 */
+  #contact .contact-item {
+    padding: 1rem;
+  }
+  
+  /* 调整联系页面网格布局 */
+  .grid.grid-cols-1.md\:grid-cols-2 {
+    gap: 1.5rem;
+  }
+}
+
+/* 极窄屏幕设备优化 */
+@media (max-width: 480px) {
+  /* 优化导航栏在极窄屏幕下的显示效果 */
+  #navbar .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  #navbar .px-4 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  #navbar .py-3 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  #navbar .text-xl {
+    font-size: 1.125rem;
+  }
+  
+  .contact-item {
+    padding: 1rem;
+  }
+  
+  .contact-item .text-xl {
+    font-size: 1.25rem;
+  }
+  
+  .contact-item .text-lg {
+    font-size: 1rem;
+  }
+  
+  /* 进一步调整首页联系方式卡片 */
+  #contact .contact-item {
+    padding: 0.75rem;
+  }
+  
+  /* 调整联系页面网格间距 */
+  .grid.grid-cols-1.md\:grid-cols-2 {
+    gap: 1rem;
+  }
+}
+
+/* 加载动画 */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* 联系方式显示/隐藏过渡动画 */
+.contact-item .contact-content {
+  transition: all 0.3s ease;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.contact-item.show .contact-content {
+  max-height: 100px;
   opacity: 1;
 }
 
@@ -175,6 +299,11 @@ body {
   font-size: 14px;
   transition: all 0.3s ease;
   margin-left: 8px;
+  opacity: 0;
+}
+
+.contact-item.show .copy-btn {
+  opacity: 1;
 }
 
 .copy-btn:hover {
