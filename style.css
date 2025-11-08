@@ -264,16 +264,7 @@ body {
   }
 }
 
-/* 加载动画 */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
 
 /* 联系方式显示/隐藏过渡动画 */
 .contact-item .contact-content {

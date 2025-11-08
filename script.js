@@ -14,25 +14,6 @@ function debounce(func, wait, immediate) {
   };
 }
 
-// 页面加载动画
-document.addEventListener('DOMContentLoaded', function() {
-  // 隐藏加载动画
-  const loadingOverlay = document.getElementById('loading-overlay');
-  if (loadingOverlay) {
-    // 添加一个微小的延迟，确保动画显示一段时间
-    setTimeout(() => {
-      loadingOverlay.classList.add('hidden');
-      
-      // 在过渡动画结束后从DOM中移除元素
-      loadingOverlay.addEventListener('transitionend', function() {
-        if (loadingOverlay.parentNode) {
-          loadingOverlay.parentNode.removeChild(loadingOverlay);
-        }
-      });
-    }, 500);
-  }
-});
-
 // 导航栏滚动效果
 // 文档加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
